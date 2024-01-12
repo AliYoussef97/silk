@@ -19,15 +19,19 @@ from silk.config.model import load_model_from_checkpoint
 from silk.models.silk import matcher
 
 # CHECKPOINT_PATH = os.path.join(os.path.dirname(__file__), "../../assets/models/silk/analysis/alpha/pvgg-4.ckpt")
+# CHECKPOINT_PATH = os.path.join(
+#     os.path.dirname(__file__), "../../assets/models/silk/coco-rgb-aug.ckpt"
+# )
 CHECKPOINT_PATH = os.path.join(
-    os.path.dirname(__file__), "../../assets/models/silk/coco-rgb-aug.ckpt"
+    os.path.dirname(__file__), "silk/coco-rgb-aug.ckpt"
 )
+
 DEVICE = "cuda:0"
 
 SILK_NMS = 0  # NMS radius, 0 = disabled
 SILK_BORDER = 0  # remove detection on border, 0 = disabled
 SILK_THRESHOLD = 1.0  # keypoint score thresholding, if # of keypoints is less than provided top-k, then will add keypoints to reach top-k value, 1.0 = disabled
-SILK_TOP_K = 10000  # minimum number of best keypoints to output, could be higher if threshold specified above has low value
+SILK_TOP_K = 20000  # minimum number of best keypoints to output, could be higher if threshold specified above has low value
 SILK_DEFAULT_OUTPUT = (  # outputs required when running the model
     "dense_positions",
     "normalized_descriptors",
@@ -39,9 +43,9 @@ SILK_BACKBONE = ParametricVGG(
     padding=0,
     normalization_fn=[torch.nn.BatchNorm2d(i) for i in (64, 64, 128, 128)],
 )
-SILK_MATCHER = matcher(postprocessing="ratio-test", threshold=0.6)
+#SILK_MATCHER = matcher(postprocessing="ratio-test", threshold=0.6)
 # SILK_MATCHER = matcher(postprocessing="double-softmax", threshold=0.6, temperature=0.1)
-# SILK_MATCHER = matcher(postprocessing="none")
+SILK_MATCHER = matcher(postprocessing="none")
 
 
 def load_images(*paths, as_gray=True):
