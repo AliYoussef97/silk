@@ -3,8 +3,7 @@ data:
     class_name: 'Scannet'
     gt_pairs: 'ScanNet/scannet_test_pairs_with_gt.txt'
     images_path:  'ScanNet'
-    resize_side: 'horz'
-    resize: 640
+    resize: [480, 640]
     epi_thrsehold: 0.0005
     shuffle: false
     max_length: -1
