@@ -42,9 +42,23 @@ class Scannet(Dataset):
         image = cv2.imread(str(image), cv2.IMREAD_GRAYSCALE)
         return image  
 
+    def get_resize_shape(self, H, W):
+        side = self.config["resize_side"]
+        side_size = self.config["resize"]
+        aspect_ratio = W / H
+        if side == "vert":
+            size = side_size, int(side_size * aspect_ratio)
+        elif side == "horz":
+            size = int(side_size / aspect_ratio), side_size
+        elif (side == "short") ^ (aspect_ratio < 1.0):
+            size = side_size, int(side_size * aspect_ratio)
+        else:
+            size = int(side_size / aspect_ratio), side_size
+        return size
+
     def preprocess(self, image):
         H, W = image.shape[:2]
-        H_new, W_new = self.config["resize"]
+        H_new, W_new = self.get_resize_shape(H, W)
         image = cv2.resize(image, (W_new, H_new))
         image = image.astype(np.float32) 
         scales = (float(W_new) / float(W), float(H_new) / float(H))
