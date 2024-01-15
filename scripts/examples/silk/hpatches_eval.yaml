@@ -1,0 +1,10 @@
+data:
+    name: 'HPatches'
+    class_name: 'HPatches'
+    batch_size: 1
+    alteration: 'all' # choose when running engine on Hpatches evaluation, v for viewpoint, i for illumination, all for both
+    resize_side: "short"
+    resize: 480
+    dist_thresh: 3.0
+matcher:
+    top_k: 10000

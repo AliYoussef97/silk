@@ -22,9 +22,6 @@ from silk.models.silk import matcher
 # CHECKPOINT_PATH = os.path.join(
 #     os.path.dirname(__file__), "../../assets/models/silk/coco-rgb-aug.ckpt"
 # )
-CHECKPOINT_PATH = os.path.join(
-    os.path.dirname(__file__), "silk/coco-rgb-aug.ckpt"
-)
 
 DEVICE = "cuda:0"
 
@@ -60,17 +57,18 @@ def load_images(*paths, as_gray=True):
 
 
 def get_model(
-    checkpoint=CHECKPOINT_PATH,
+    checkpoint=None,
     nms=SILK_NMS,
     device=DEVICE,
     default_outputs=SILK_DEFAULT_OUTPUT,
+    top_k=None,
 ):
     # load model
     model = SiLK(
         in_channels=1,
         backbone=deepcopy(SILK_BACKBONE),
         detection_threshold=SILK_THRESHOLD,
-        detection_top_k=SILK_TOP_K,
+        detection_top_k=top_k,
         nms_dist=nms,
         border_dist=SILK_BORDER,
         default_outputs=default_outputs,
